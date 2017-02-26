@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Water Supply Analysis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="http://d3js.org/d3.v3.min.js" ></script>
+</head>
+<body>
+<!-- start: Header -->
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Water Supply Analysis</a>
+    </div>
+  </div>
+</nav>
+<!-- end: Header -->
+<div class="container">
+  <div class="jumbotron">
+    <h2><b>Main source of drinking water</b></h2>
+<p>This dataset contains information on Dwelling occupants owning the dwelling they live in and are using piped water. The dataset was collected for the Maji-data project. MajiData is the pro-poor database covering all the urban low income areas of Kenya which has been prepared by the Ministry of Water and Irrigation (MWI) and the Water Services Trust Fund (WSTF) in cooperation with UN-Habitat, the German Development Bank (KfW), Google org. and GIZ. </p>
+<a href="H_County_WaterSupply_DrkSrc.csv"><button class="btn btn-success">Download Template</button></a>
+</div>
+
+<div class="row">
+<div class="col-xs-4">
+<h5>Summarized Total-Water-Points per county</h5>
+ <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">View</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Water Points-All Counties</h4>
+        </div>
+        <div class="modal-body">
+         <table id="mainTable" class="table table-bordered"></table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+	
+</div>
+  <div class="col-xs-7">
+<select id="countyName" onchange=onChangeHandler(this.value)></select> <br><br>
+<table id="myTable" class="table table-bordered">
+<tr>
+<th>CountyName</th>
+<th>WDrkSrc</th>
+<th>SmpSrc</th>
+<th>pcntDUsusingsrc</th>
+<th>NoUsingSrc</th>
+</tr>
+
+</table></div>
+</div>
+<div id="chart"></div>
+</div>
+<script>
+var dataset = [];
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+function onChangeHandler(county)
+{
+//document.getElementById("myTable").innerHTML = "";
+d3.csv("H_County_WaterSupply_DrkSrc.csv", function(data) {
+//Identify the county selected, then fileter the data for that county only and store the data in array.
+ var filterCountyData = data.filter(function() 
+    { 
+        csv = data.filter(function(row) {
+        return row['CountyName'] == county;
+       })
+   })
+
+//Time to create a table - Appending rows containing detailed data per country in the table as per the county selected.
+var table = document.getElementById("myTable");
+for(var i = 0; i < csv.length; i++) 
+{ 
+       var row = table.insertRow(0);
+	var cell1 = row.insertCell(0);
+	var cell2 = row.insertCell(1);
+	var cell3 = row.insertCell(2);
+	var cell4 = row.insertCell(3);
+	var cell5 = row.insertCell(4);
+	cell1.innerHTML = csv[i]['CountyName'];
+	cell2.innerHTML = csv[i]['WDrkSrc'];
+	cell3.innerHTML = csv[i]['SmpSrc'];
+	cell4.innerHTML = csv[i]['pcntDUsusingsrc'];
+	cell5.innerHTML = csv[i]['NoUsingSrc'];
+    }
+});
+
+}
+
+
+
+d3.csv("H_County_WaterSupply_DrkSrc.csv", function(data) {
+//Add all counties in an array.
+for (var num in data) {
+	var dd = data[num]['CountyName']+':'+data[num]['TotDUs'];
+	dataset.push(dd);
+  }
+
+
+//Populate droplist for distinct Counties.
+var filteredDataset = dataset.filter(onlyUnique);
+var s = document.getElementById('countyName');
+var totDUs = []; var names = [];
+for(var i = 0; i < filteredDataset.length; i++){
+   var t = document.createElement("option")
+   var countyname   = filteredDataset[i].substring(0, filteredDataset[i].lastIndexOf(":"));
+   t.value = countyname;
+   t.textContent = countyname;
+   s.appendChild(t);
+
+}
+//populate countyTotDUs in table
+var table = document.getElementById("mainTable");
+for(var i = 0; i < filteredDataset.length; i++) 
+{ 
+      var countyname   = filteredDataset[i].substring(0, filteredDataset[i].lastIndexOf(":"));
+       var countyTotDUs = filteredDataset[i].substring(filteredDataset[i].lastIndexOf(":") +1);
+	
+        
+	var row = table.insertRow(0);
+	var cell1 = row.insertCell(0);
+	var cell2 = row.insertCell(1);
+	cell1.innerHTML = countyname;
+	cell2.innerHTML = countyTotDUs;
+}
+
+
+
+/*var x = d3.scale.linear()
+    .domain([0, d3.max(totDUs)])
+    .range([0, 420]);
+
+d3.select(".chart")
+  .selectAll("div")
+    .data(totDUs)
+    .enter()
+	.append("div")
+    .style("height", function(d) { return x(d) + "px"; })
+    .text(function(d) { return d; })
+*/
+
+});
+
+
+</script>
+
+</body>
+</html>
+
