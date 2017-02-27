@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Water Supply Analysis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link  rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css">
+  <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="http://d3js.org/d3.v3.min.js" ></script>
+  <!-- Plotly.js -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <!-- Numeric JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeric/1.2.6/numeric.min.js"></script>
+  <script type = "text/javascript" src="main.js" ></script>
+
+  <style>
+  .navbar-inverse
+  {
+    background-color: #000026;
+    box-shadow: 0 2px 5px rgba(190, 190, 190, 0.5);
+  }
+  #tb
+  {
+    font-size:46px;
+    color:red;
+  }
+  </style>
+</head>
+<body>
+  <!-- start: Header -->
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">County TB Cases Report</a>
+      </div>
+    </div>
+  </nav>
+  <!-- end: Header -->
+<div class="row">
+    <div class="col-xs-4 well">
+        <select id="countyName" onchange=onChangeHandler(this.value)></select>
+        <p id = "tb" class="well"></p>
+        <br><br>
+        <table id="myTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+          <tr>
+            <th>CountyName</th>
+            <th>Tuberculosis prevalence</th>
+          </tr>
+        </table>
+    </div>
+    <div class="col-xs-8 well">
+      <h3>Percentage TB Reports per County</h3>
+        <div id="myDiv" style="width: 480px; height: 380px;"></div>
+    </div>
+</div>
+
+</body>
+</html>

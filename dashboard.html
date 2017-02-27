@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Water Supply Analysis</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script src="http://d3js.org/d3.v3.min.js" ></script>
+</head>
+<body>
+
+
+  <div id="app-wrapper">
+    <div id="app-toolbar">
+      <form action="" onsubmit="return false;" method="post">
+        <div class="row tools">
+          <div class="col-sm-2">
+            <div class="tool radius">
+              <h5>Query Radius</h5>
+              <input type="number" id="radius-value" class="form-control" value="">
+              <select class="form-control" id="radius-suffix">
+                <option></option>
+                <option value="mi">mi</option>
+                <option value="km">km</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool coordinates">
+              <h5>Latitude</h5>
+              <input type="number" step="any" id="coordinates-lat" class="form-control" placeholder="Latitude">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool coordinates">
+              <h5>Longitude</h5>
+              <input type="number" step="any" id="coordinates-lng" class="form-control" placeholder="Longitude">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool timeframe">
+              <h5>Start time</h5>
+              <input type="date" id="timeframe-start" class="form-control" placeholder="mm/dd/yyyy">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool timeframe">
+              <h5>End time</h5>
+              <input type="date" id="timeframe-end" class="form-control" placeholder="mm/dd/yyyy">
+            </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="tool">
+              <h5>Keen IO &#9825's Mapbox</h5>
+              <button id="refresh" class="btn btn-primary btn-block">Refresh</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div id="app-maparea"></div>
+
+    <div id="app-sidebar">
+
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Daily Median Heart Rate
+        </div>
+        <div class="chart-stage">
+          <div id="chart-01"></div>
+        </div>
+      </div>
+
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Daily Activations
+        </div>
+        <div class="chart-stage">
+          <div id="chart-02"></div>
+        </div>
+      </div>
+
+      <div class="chart-wrapper">
+        <div class="chart-title">
+          Total Daily Purchases
+        </div>
+        <div class="chart-stage">
+          <div id="chart-03"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
